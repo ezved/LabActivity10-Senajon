@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    /** @use HasFactory<\Database\Factories\AuthorFactory> */
     use HasFactory;
+
+    // columns allowed for create([...]) mass assignment
+    protected $fillable = ['name', 'position', 'email'];
 }
