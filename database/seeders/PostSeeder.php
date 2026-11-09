@@ -1,13 +1,17 @@
 <?php
 
+// seeders live in this namespace
 namespace Database\Seeders;
 
+// we read authors and create posts here
 use App\Models\Author;
 use App\Models\Post;
+// base class for all seeders
 use Illuminate\Database\Seeder;
 
 class PostSeeder extends Seeder
 {
+    // runs when we call db:seed
     public function run(): void
     {
         // authors already exist because AuthorSeeder runs first
@@ -23,17 +27,19 @@ class PostSeeder extends Seeder
             ->sequence(fn ($seq) => ['author_id' => $authors->random()->id])
             ->create();
 
-        // my pinned post, written by my Kagawad, on my birthday in 2026
+        // find my Kagawad by his email
         $kagawad = Author::where('email', 'kagawad.senajon@bulletin.test')->first();
 
+        // my pinned post, written by my Kagawad, on my birthday in 2026
         Post::create([
-            'author_id'    => $kagawad->id,
-            'title'        => 'Purok Senajon Clean-up Drive',
-            'category'     => 'Announcement',
+            'author_id'    => $kagawad->id,                        // written by my Kagawad
+            'title'        => 'Purok Senajon Clean-up Drive',      // required title
+            'category'     => 'Announcement',                      // one of the 5 categories
+            // the text of the announcement
             'body'         => "Magtipon po ang lahat ng residente ng Purok Senajon sa Matina Crossing Hall para sa clean-up drive. Magdala ng walis, sako, at guwantes.\n\nMaglilinis tayo ng mga kanal at kalsada para makaiwas sa dengue at baha. Salamat po sa inyong pakikiisa!",
-            'is_published' => true,
-            'is_pinned'    => true,
-            'published_at' => '2026-10-15 08:00:00',
+            'is_published' => true,                                // visible to everyone
+            'is_pinned'    => true,                                // shows first in the list
+            'published_at' => '2026-10-15 08:00:00',               // my birthday in 2026
         ]);
     }
 }
