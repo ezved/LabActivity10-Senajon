@@ -28,8 +28,8 @@ class PostController extends Controller
             ->paginate(self::PER_PAGE)
             ->withQueryString();         // keeps ?q= and ?category= on page links
 
-        // category choices for the dropdown
-        $categories = Post::query()->distinct()->orderBy('category')->pluck('category');
+        // category choices for the dropdown (published posts only)
+        $categories = Post::query()->where('is_published', true)->distinct()->orderBy('category')->pluck('category');
 
         return view('posts.index', compact('posts', 'categories'));
     }
